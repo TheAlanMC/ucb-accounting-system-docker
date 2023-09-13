@@ -63,7 +63,7 @@ services:
       KC_DB_PASSWORD: ${KEYCLOAK_POSTGRES_DEV_PASSWORD}
       KC_DB_SCHEMA: public
     volumes:
-      - ~/Desktop/uas/dev/keycloak/data:/opt/jboss/keycloak/standalone/data
+      - ~/Desktop/uas/dev/keycloak/data:/opt/keycloak/data
     networks:
       - network-uas
     depends_on:
@@ -86,3 +86,28 @@ services:
     command: server /data --console-address ":9090"
     networks:
       - network-uas
+  
+  uas-backend-dev:
+    container_name: uas-backend-dev
+    image: thealanmc/uas-backend:0.1.0
+    user: root
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: ${BACKEND_PORT}
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_URL: ${POSTGRES_URL}
+      KEYCLOAK_SERVER_URI: ${KEYCLOAK_SERVER_URI}
+      KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
+      KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET}
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+      FRONTEND_KEYCLOAK_CLIENT_ID: ${FRONTEND_KEYCLOAK_CLIENT_ID}
+      MINIO_SERVER_URI: ${MINIO_SERVER_URI}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+    volumes:
+      - ~/Desktop/uas/dev/backend/logs:/opt/uas/logs/uas-backend
+    networks:
+      - network-uas
+
