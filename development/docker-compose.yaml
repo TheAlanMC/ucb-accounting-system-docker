@@ -111,3 +111,14 @@ services:
     networks:
       - network-uas
 
+  uas-frontend-dev:
+    container_name: uas-frontend
+    image: thealanmc/uas-frontend:0.1.0
+    user: root
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ~/Desktop/uas/dev/angular/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - network-uas
