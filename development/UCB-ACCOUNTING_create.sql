@@ -1,4 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
+-- Last modification date: 2023-09-23 19:59:04.092
 
 -- tables
 -- Table: account
@@ -9,6 +10,9 @@ CREATE TABLE account (
     account_code int  NOT NULL,
     account_name varchar(100)  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT account_pk PRIMARY KEY (account_id)
 );
 
@@ -18,6 +22,9 @@ CREATE TABLE account_category (
     account_category_code int  NOT NULL,
     account_category_name varchar(100)  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT account_category_pk PRIMARY KEY (account_category_id)
 );
 
@@ -29,6 +36,9 @@ CREATE TABLE account_group (
     account_group_code int  NOT NULL,
     account_group_name varchar(100)  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT account_group_pk PRIMARY KEY (account_group_id)
 );
 
@@ -40,27 +50,10 @@ CREATE TABLE account_subgroup (
     account_subgroup_code int  NOT NULL,
     account_subgroup_name varchar(100)  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT account_subgroup_pk PRIMARY KEY (account_subgroup_id)
-);
-
--- Table: accountant
-CREATE TABLE accountant (
-    accountant_id serial  NOT NULL,
-    kc_uuid varchar(50)  NOT NULL,
-    accountant_name varchar(100)  NOT NULL,
-    s3_profile_picture int  NOT NULL,
-    status boolean  NOT NULL,
-    CONSTRAINT accountant_pk PRIMARY KEY (accountant_id)
-);
-
--- Table: accounting_assistant
-CREATE TABLE accounting_assistant (
-    accounting_assistant_id serial  NOT NULL,
-    kc_uuid varchar(50)  NOT NULL,
-    assistant_name varchar(100)  NOT NULL,
-    s3_profile_picture int  NOT NULL,
-    status boolean  NOT NULL,
-    CONSTRAINT accounting_assistant_pk PRIMARY KEY (accounting_assistant_id)
 );
 
 -- Table: attachment
@@ -71,6 +64,9 @@ CREATE TABLE attachment (
     filename varchar(255)  NOT NULL,
     file_data bytea  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT attachment_pk PRIMARY KEY (attachment_id)
 );
 
@@ -80,17 +76,10 @@ CREATE TABLE business_entity (
     business_entity_name varchar(100)  NOT NULL,
     description varchar(255)  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT business_entity_pk PRIMARY KEY (business_entity_id)
-);
-
--- Table: client
-CREATE TABLE client (
-    client_id serial  NOT NULL,
-    kc_uuid varchar(50)  NOT NULL,
-    client_name varchar(100)  NOT NULL,
-    s3_profile_picture int  NOT NULL,
-    status boolean  NOT NULL,
-    CONSTRAINT client_pk PRIMARY KEY (client_id)
 );
 
 -- Table: company
@@ -98,35 +87,16 @@ CREATE TABLE company (
     company_id serial  NOT NULL,
     industry_id int  NOT NULL,
     business_entity_id int  NOT NULL,
-    accountant_id int  NOT NULL,
     company_name varchar(100)  NOT NULL,
     company_nit varchar(50)  NOT NULL,
     company_address varchar(255)  NOT NULL,
     phone_number varchar(50)  NOT NULL,
     s3_company_logo int  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT company_pk PRIMARY KEY (company_id)
-);
-
--- Table: company_accounting_assistant
-CREATE TABLE company_accounting_assistant (
-    company_id int  NOT NULL,
-    aaccounting_assistant_id int  NOT NULL,
-    CONSTRAINT company_accounting_assistant_pk PRIMARY KEY (company_id,aaccounting_assistant_id)
-);
-
--- Table: company_client
-CREATE TABLE company_client (
-    company_id int  NOT NULL,
-    client_id int  NOT NULL,
-    CONSTRAINT company_client_pk PRIMARY KEY (company_id,client_id)
-);
-
--- Table: company_tax
-CREATE TABLE company_tax (
-    susubaccount_id int  NOT NULL,
-    tax_id int  NOT NULL,
-    CONSTRAINT company_tax_pk PRIMARY KEY (susubaccount_id,tax_id)
 );
 
 -- Table: currency_type
@@ -135,7 +105,30 @@ CREATE TABLE currency_type (
     currency_code varchar(50)  NOT NULL,
     currency_name varchar(50)  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT currency_type_pk PRIMARY KEY (currency_type_id)
+);
+
+-- Table: customer
+CREATE TABLE customer (
+    customer_id serial  NOT NULL,
+    company_id int  NOT NULL,
+    subaccount_id int  NOT NULL,
+    prefix varchar(50)  NOT NULL,
+    display_name varchar(100)  NOT NULL,
+    first_name varchar(100)  NOT NULL,
+    last_name varchar(100)  NOT NULL,
+    company_name varchar(100)  NOT NULL,
+    company_email varchar(50)  NOT NULL,
+    company_phone_number varchar(50)  NOT NULL,
+    company_address varchar(255)  NOT NULL,
+    status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
+    CONSTRAINT customer_pk PRIMARY KEY (customer_id)
 );
 
 -- Table: document_type
@@ -143,6 +136,9 @@ CREATE TABLE document_type (
     document_type_id serial  NOT NULL,
     document_type_name varchar(100)  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT document_type_pk PRIMARY KEY (document_type_id)
 );
 
@@ -156,7 +152,41 @@ CREATE TABLE exchange_rate (
     exchange_month int  NOT NULL,
     exchange_year int  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT exchange_rate_pk PRIMARY KEY (exchange_rate_id)
+);
+
+-- Table: expense_transaction
+CREATE TABLE expense_transaction (
+    expense_transaction_id serial  NOT NULL,
+    journal_entry_id int  NOT NULL,
+    company_id int  NOT NULL,
+    supplier_id int  NOT NULL,
+    subaccount_id int  NOT NULL,
+    expense_transaction_number int  NOT NULL,
+    expense_transaction_date date  NOT NULL,
+    description varchar(255)  NOT NULL,
+    gloss varchar(255)  NOT NULL,
+    status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
+    CONSTRAINT expense_transaction_pk PRIMARY KEY (expense_transaction_id)
+);
+
+-- Table: expense_transaction_detail
+CREATE TABLE expense_transaction_detail (
+    expense_transaction_detail_id serial  NOT NULL,
+    expense_transaction_id int  NOT NULL,
+    susubaccount_id int  NOT NULL,
+    amount_bs money  NOT NULL,
+    status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
+    CONSTRAINT expense_transaction_detail_pk PRIMARY KEY (expense_transaction_detail_id)
 );
 
 -- Table: industry
@@ -164,6 +194,9 @@ CREATE TABLE industry (
     industry_id serial  NOT NULL,
     industry_name varchar(100)  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT industry_pk PRIMARY KEY (industry_id)
 );
 
@@ -173,11 +206,47 @@ CREATE TABLE journal_entry (
     company_id int  NOT NULL,
     document_type_id int  NOT NULL,
     journal_entry_number int  NOT NULL,
-    entry_date timestamp  NOT NULL,
     gloss varchar(255)  NOT NULL,
     journal_entry_accepted boolean  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT journal_entry_pk PRIMARY KEY (journal_entry_id)
+);
+
+-- Table: kc_group
+CREATE TABLE kc_group (
+    kc_group_id serial  NOT NULL,
+    kc_group_name varchar(50)  NOT NULL,
+    status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
+    CONSTRAINT kc_group_pk PRIMARY KEY (kc_group_id)
+);
+
+-- Table: kc_user
+CREATE TABLE kc_user (
+    kc_uuid varchar(50)  NOT NULL,
+    s3_profile_picture int  NOT NULL,
+    status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
+    CONSTRAINT kc_user_pk PRIMARY KEY (kc_uuid)
+);
+
+-- Table: kc_user_company
+CREATE TABLE kc_user_company (
+    kc_uuid varchar(50)  NOT NULL,
+    company_id int  NOT NULL,
+    kc_group_id int  NOT NULL,
+    status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
+    CONSTRAINT kc_user_company_pk PRIMARY KEY (kc_uuid,company_id)
 );
 
 -- Table: report
@@ -187,13 +256,14 @@ CREATE TABLE report (
     report_type_id int  NOT NULL,
     currency_type_id int  NOT NULL,
     atattachment_id int  NOT NULL,
-    kc_uuid varchar(100)  NOT NULL,
-    ledger_date timestamp  NOT NULL,
     period_start_date date  NOT NULL,
     period_end_date date  NOT NULL,
     description varchar(255)  NOT NULL,
     is_finantial_statement boolean  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT report_pk PRIMARY KEY (report_id)
 );
 
@@ -202,6 +272,9 @@ CREATE TABLE report_type (
     report_type_id serial  NOT NULL,
     report_name varchar(50)  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT report_type_pk PRIMARY KEY (report_type_id)
 );
 
@@ -212,7 +285,43 @@ CREATE TABLE s3_object (
     bucket varchar(50)  NOT NULL,
     filename varchar(100)  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT s3_object_pk PRIMARY KEY (s3_object_id)
+);
+
+-- Table: sale_transaction
+CREATE TABLE sale_transaction (
+    sale_transaction_id serial  NOT NULL,
+    journal_entry_id int  NOT NULL,
+    company_id int  NOT NULL,
+    customer_id int  NOT NULL,
+    subaccount_id int  NOT NULL,
+    sale_transaction_number int  NOT NULL,
+    sale_transaction_date date  NOT NULL,
+    description varchar(255)  NOT NULL,
+    gloss varchar(255)  NOT NULL,
+    sale_transaction_accepted boolean  NOT NULL,
+    status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
+    CONSTRAINT sale_transaction_pk PRIMARY KEY (sale_transaction_id)
+);
+
+-- Table: sale_transaction_detail
+CREATE TABLE sale_transaction_detail (
+    sale_transaction_detail_id serial  NOT NULL,
+    sale_transaction_id int  NOT NULL,
+    subaccount_id int  NOT NULL,
+    quantity int  NOT NULL,
+    unit_price_bs money  NOT NULL,
+    status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
+    CONSTRAINT sale_transaction_detail_pk PRIMARY KEY (sale_transaction_detail_id)
 );
 
 -- Table: subaccount
@@ -220,20 +329,58 @@ CREATE TABLE subaccount (
     subaccount_id serial  NOT NULL,
     account_id int  NOT NULL,
     company_id int  NOT NULL,
-    subacount_code int  NOT NULL,
+    subaccount_code int  NOT NULL,
     subaccount_name varchar(100)  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT subaccount_pk PRIMARY KEY (subaccount_id)
 );
 
--- Table: tax
-CREATE TABLE tax (
-    tax_id serial  NOT NULL,
-    year int  NOT NULL,
+-- Table: subaccount_tax_type
+CREATE TABLE subaccount_tax_type (
+    tax_type_id int  NOT NULL,
+    subaccount_id int  NOT NULL,
+    company_id int  NOT NULL,
     tax_percentage decimal(5,2)  NOT NULL,
-    tax_name varchar(100)  NOT NULL,
     status boolean  NOT NULL,
-    CONSTRAINT tax_pk PRIMARY KEY (tax_id)
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
+    CONSTRAINT subaccount_tax_type_pk PRIMARY KEY (tax_type_id,subaccount_id)
+);
+
+-- Table: supplier
+CREATE TABLE supplier (
+    supplier_id serial  NOT NULL,
+    company_id int  NOT NULL,
+    susubaccount_id int  NOT NULL,
+    prefix varchar(500)  NOT NULL,
+    display_name varchar(100)  NOT NULL,
+    first_name varchar(100)  NOT NULL,
+    last_name varchar(100)  NOT NULL,
+    company_name varchar(100)  NOT NULL,
+    company_email varchar(50)  NOT NULL,
+    company_phone_number varchar(50)  NOT NULL,
+    company_address varchar(255)  NOT NULL,
+    status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
+    CONSTRAINT supplier_pk PRIMARY KEY (supplier_id)
+);
+
+-- Table: tax_type
+CREATE TABLE tax_type (
+    tax_type_id serial  NOT NULL,
+    tax_type_name varchar(100)  NOT NULL,
+    description varchar(255)  NOT NULL,
+    status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
+    CONSTRAINT tax_type_pk PRIMARY KEY (tax_type_id)
 );
 
 -- Table: transaction
@@ -243,6 +390,9 @@ CREATE TABLE transaction (
     transaction_date date  NOT NULL,
     description varchar(255)  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT transaction_pk PRIMARY KEY (transaction_id)
 );
 
@@ -250,6 +400,10 @@ CREATE TABLE transaction (
 CREATE TABLE transaction_attachment (
     transaction_id int  NOT NULL,
     attachment_id int  NOT NULL,
+    status boolean  NOT NULL,
+    tx_date int  NOT NULL,
+    tx_user int  NOT NULL,
+    tx_host int  NOT NULL,
     CONSTRAINT transaction_attachment_pk PRIMARY KEY (transaction_id,attachment_id)
 );
 
@@ -265,10 +419,29 @@ CREATE TABLE transaction_detail (
     debit_amount_ufv decimal(15,5)  NOT NULL,
     credit_amount_ufv decimal(15,5)  NOT NULL,
     status boolean  NOT NULL,
+    tx_date timestamp  NOT NULL,
+    tx_user varchar(50)  NOT NULL,
+    tx_host varchar(50)  NOT NULL,
     CONSTRAINT transaction_detail_pk PRIMARY KEY (transaction_detail_id)
 );
 
 -- foreign keys
+-- Reference: Table_40_company (table: kc_user_company)
+ALTER TABLE kc_user_company ADD CONSTRAINT Table_40_company
+    FOREIGN KEY (company_id)
+    REFERENCES company (company_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: Table_40_user (table: kc_user_company)
+ALTER TABLE kc_user_company ADD CONSTRAINT Table_40_user
+    FOREIGN KEY (kc_uuid)
+    REFERENCES kc_user (kc_uuid)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
 -- Reference: account_account_subgroup (table: account)
 ALTER TABLE account ADD CONSTRAINT account_account_subgroup
     FOREIGN KEY (account_subgroup_id)
@@ -325,50 +498,10 @@ ALTER TABLE attachment ADD CONSTRAINT attachment_company
     INITIALLY IMMEDIATE
 ;
 
--- Reference: company_accountant (table: company)
-ALTER TABLE company ADD CONSTRAINT company_accountant
-    FOREIGN KEY (accountant_id)
-    REFERENCES accountant (accountant_id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
--- Reference: company_accounting_assistant_accounting_assistant (table: company_accounting_assistant)
-ALTER TABLE company_accounting_assistant ADD CONSTRAINT company_accounting_assistant_accounting_assistant
-    FOREIGN KEY (aaccounting_assistant_id)
-    REFERENCES accounting_assistant (accounting_assistant_id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
--- Reference: company_accounting_assistant_company (table: company_accounting_assistant)
-ALTER TABLE company_accounting_assistant ADD CONSTRAINT company_accounting_assistant_company
-    FOREIGN KEY (company_id)
-    REFERENCES company (company_id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
 -- Reference: company_business_entity (table: company)
 ALTER TABLE company ADD CONSTRAINT company_business_entity
     FOREIGN KEY (business_entity_id)
     REFERENCES business_entity (business_entity_id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
--- Reference: company_client_client (table: company_client)
-ALTER TABLE company_client ADD CONSTRAINT company_client_client
-    FOREIGN KEY (client_id)
-    REFERENCES client (client_id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
--- Reference: company_client_company (table: company_client)
-ALTER TABLE company_client ADD CONSTRAINT company_client_company
-    FOREIGN KEY (company_id)
-    REFERENCES company (company_id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -381,18 +514,18 @@ ALTER TABLE company ADD CONSTRAINT company_industry
     INITIALLY IMMEDIATE
 ;
 
--- Reference: company_tax_subaccount (table: company_tax)
-ALTER TABLE company_tax ADD CONSTRAINT company_tax_subaccount
-    FOREIGN KEY (susubaccount_id)
-    REFERENCES subaccount (subaccount_id)  
+-- Reference: customer_company (table: customer)
+ALTER TABLE customer ADD CONSTRAINT customer_company
+    FOREIGN KEY (company_id)
+    REFERENCES company (company_id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
--- Reference: company_tax_tax (table: company_tax)
-ALTER TABLE company_tax ADD CONSTRAINT company_tax_tax
-    FOREIGN KEY (tax_id)
-    REFERENCES tax (tax_id)  
+-- Reference: customer_subaccount (table: customer)
+ALTER TABLE customer ADD CONSTRAINT customer_subaccount
+    FOREIGN KEY (subaccount_id)
+    REFERENCES subaccount (subaccount_id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -401,6 +534,54 @@ ALTER TABLE company_tax ADD CONSTRAINT company_tax_tax
 ALTER TABLE exchange_rate ADD CONSTRAINT exchange_rate_company
     FOREIGN KEY (company_id)
     REFERENCES company (company_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: expense_transaction_company (table: expense_transaction)
+ALTER TABLE expense_transaction ADD CONSTRAINT expense_transaction_company
+    FOREIGN KEY (company_id)
+    REFERENCES company (company_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: expense_transaction_detail_expense_transaction (table: expense_transaction_detail)
+ALTER TABLE expense_transaction_detail ADD CONSTRAINT expense_transaction_detail_expense_transaction
+    FOREIGN KEY (expense_transaction_id)
+    REFERENCES expense_transaction (expense_transaction_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: expense_transaction_detail_subaccount (table: expense_transaction_detail)
+ALTER TABLE expense_transaction_detail ADD CONSTRAINT expense_transaction_detail_subaccount
+    FOREIGN KEY (susubaccount_id)
+    REFERENCES subaccount (subaccount_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: expense_transaction_journal_entry (table: expense_transaction)
+ALTER TABLE expense_transaction ADD CONSTRAINT expense_transaction_journal_entry
+    FOREIGN KEY (journal_entry_id)
+    REFERENCES journal_entry (journal_entry_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: expense_transaction_subaccount (table: expense_transaction)
+ALTER TABLE expense_transaction ADD CONSTRAINT expense_transaction_subaccount
+    FOREIGN KEY (subaccount_id)
+    REFERENCES subaccount (subaccount_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: expense_transaction_supplier (table: expense_transaction)
+ALTER TABLE expense_transaction ADD CONSTRAINT expense_transaction_supplier
+    FOREIGN KEY (supplier_id)
+    REFERENCES supplier (supplier_id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -417,6 +598,14 @@ ALTER TABLE journal_entry ADD CONSTRAINT journal_entry_company
 ALTER TABLE journal_entry ADD CONSTRAINT journal_entry_document_type
     FOREIGN KEY (document_type_id)
     REFERENCES document_type (document_type_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: kc_user_company_kc_group (table: kc_user_company)
+ALTER TABLE kc_user_company ADD CONSTRAINT kc_user_company_kc_group
+    FOREIGN KEY (kc_group_id)
+    REFERENCES kc_group (kc_group_id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -453,6 +642,54 @@ ALTER TABLE report ADD CONSTRAINT report_report_type
     INITIALLY IMMEDIATE
 ;
 
+-- Reference: sale_transaction_company (table: sale_transaction)
+ALTER TABLE sale_transaction ADD CONSTRAINT sale_transaction_company
+    FOREIGN KEY (company_id)
+    REFERENCES company (company_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: sale_transaction_customer (table: sale_transaction)
+ALTER TABLE sale_transaction ADD CONSTRAINT sale_transaction_customer
+    FOREIGN KEY (customer_id)
+    REFERENCES customer (customer_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: sale_transaction_detail_sale_transaction (table: sale_transaction_detail)
+ALTER TABLE sale_transaction_detail ADD CONSTRAINT sale_transaction_detail_sale_transaction
+    FOREIGN KEY (sale_transaction_id)
+    REFERENCES sale_transaction (sale_transaction_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: sale_transaction_detail_subaccount (table: sale_transaction_detail)
+ALTER TABLE sale_transaction_detail ADD CONSTRAINT sale_transaction_detail_subaccount
+    FOREIGN KEY (subaccount_id)
+    REFERENCES subaccount (subaccount_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: sale_transaction_journal_entry (table: sale_transaction)
+ALTER TABLE sale_transaction ADD CONSTRAINT sale_transaction_journal_entry
+    FOREIGN KEY (journal_entry_id)
+    REFERENCES journal_entry (journal_entry_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: sale_transaction_subaccount (table: sale_transaction)
+ALTER TABLE sale_transaction ADD CONSTRAINT sale_transaction_subaccount
+    FOREIGN KEY (subaccount_id)
+    REFERENCES subaccount (subaccount_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
 -- Reference: sub_account_company (table: subaccount)
 ALTER TABLE subaccount ADD CONSTRAINT sub_account_company
     FOREIGN KEY (company_id)
@@ -465,6 +702,46 @@ ALTER TABLE subaccount ADD CONSTRAINT sub_account_company
 ALTER TABLE subaccount ADD CONSTRAINT subaccount_account
     FOREIGN KEY (account_id)
     REFERENCES account (account_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: subaccount_tax_tax_type (table: subaccount_tax_type)
+ALTER TABLE subaccount_tax_type ADD CONSTRAINT subaccount_tax_tax_type
+    FOREIGN KEY (tax_type_id)
+    REFERENCES tax_type (tax_type_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: subaccount_tax_type_company (table: subaccount_tax_type)
+ALTER TABLE subaccount_tax_type ADD CONSTRAINT subaccount_tax_type_company
+    FOREIGN KEY (company_id)
+    REFERENCES company (company_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: subaccount_tax_type_subaccount (table: subaccount_tax_type)
+ALTER TABLE subaccount_tax_type ADD CONSTRAINT subaccount_tax_type_subaccount
+    FOREIGN KEY (subaccount_id)
+    REFERENCES subaccount (subaccount_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: supplier_company (table: supplier)
+ALTER TABLE supplier ADD CONSTRAINT supplier_company
+    FOREIGN KEY (company_id)
+    REFERENCES company (company_id)  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+-- Reference: supplier_subaccount (table: supplier)
+ALTER TABLE supplier ADD CONSTRAINT supplier_subaccount
+    FOREIGN KEY (susubaccount_id)
+    REFERENCES subaccount (subaccount_id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
