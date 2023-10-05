@@ -26,6 +26,7 @@ services:
     volumes:
       - ~/Desktop/uas/dev/postgres/data:/var/lib/postgresql/data
       - ./UCB-ACCOUNTING_create.sql:/docker-entrypoint-initdb.d/UCB-ACCOUNTING_create.sql
+      - ./UCB-ACCOUNTING_insert.sql:/docker-entrypoint-initdb.d/UCB-ACCOUNTING_insert.sql
     networks:
       - network-uas
 
@@ -69,7 +70,7 @@ services:
     depends_on:
       - uas-keycloak-postgres-dev
 
-  minio:
+  uas-minio-dev:
     container_name: uas-minio-dev
     image: minio/minio
     user: root
@@ -106,6 +107,7 @@ services:
       MINIO_SERVER_URI: ${MINIO_SERVER_URI}
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+      PDF_TURTLE_SERVER_URI: ${PDF_TURTLE_SERVER_URI}
     volumes:
       - ~/Desktop/uas/dev/backend/logs:/opt/uas/logs/uas-backend
     networks:
@@ -122,3 +124,16 @@ services:
       - ~/Desktop/uas/dev/angular/nginx.conf:/etc/nginx/nginx.conf:ro
     networks:
       - network-uas
+  
+  uas-pdf-turtle-dev:
+    container_name: uas-pdf-turtle-dev
+    image: lucasgaitzsch/pdf-turtle
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      PORT: ${PDF_TURTLE_DEV_PORT}
+      SERVE_PLAYGROUND: ${PDF_TURTLE_DEV_SERVE_PLAYGROUND}
+    networks:
+      - network-uas
+  
