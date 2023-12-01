@@ -1,11 +1,11 @@
 -- Query Tool
 INSERT INTO account_category (account_category_code, account_category_name, status, tx_date, tx_user, tx_host) 
 VALUES
-  (1, 'ACTIVO', true, CURRENT_TIMESTAMP, 'admin', '127.0.0.1'),
-  (2, 'PASIVO', true, CURRENT_TIMESTAMP, 'admin', '127.0.0.1'),
-  (3, 'PATRIMONIO', true, CURRENT_TIMESTAMP, 'admin', '127.0.0.1'),
-  (4, 'INGRESOS', true, CURRENT_TIMESTAMP, 'admin', '127.0.0.1'),
-  (5, 'EGRESOS', true, CURRENT_TIMESTAMP, 'admin', '127.0.0.1');
+  (100000000, 'ACTIVO', true, CURRENT_TIMESTAMP, 'admin', '127.0.0.1'),
+  (200000000, 'PASIVO', true, CURRENT_TIMESTAMP, 'admin', '127.0.0.1'),
+  (300000000, 'PATRIMONIO', true, CURRENT_TIMESTAMP, 'admin', '127.0.0.1'),
+  (400000000, 'INGRESOS', true, CURRENT_TIMESTAMP, 'admin', '127.0.0.1'),
+  (500000000, 'EGRESOS', true, CURRENT_TIMESTAMP, 'admin', '127.0.0.1');
 
 INSERT INTO business_entity (business_entity_name, description, status, tx_date, tx_user, tx_host)
 VALUES
@@ -82,3 +82,19 @@ INSERT INTO transaction_type (transaction_type_name, status, tx_date, tx_user, t
 VALUES
     ('Factura', true, CURRENT_TIMESTAMP, 'admin', '127.0.0.1'),
     ('Recibo', true, CURRENT_TIMESTAMP, 'admin', '127.0.0.1');
+
+INSERT INTO currency_type (currency_code, currency_name, status, tx_date, tx_user, tx_host) 
+VALUES 
+    ('Bs', 'Bolivianos', true, '2023-10-04 22:11:04.113814', 'admin', '127.0.0.1');
+
+INSERT INTO tax_type (tax_type_name, description, status, tx_date, tx_user, tx_host, default_tax_rate) 
+    VALUES ('I.V.A. - Credito Fiscal', 'Para comprobantes de EGRESO.', true, '2023-10-04 22:11:04.143640', 'admin', '127.0.0.1', 13.00),
+    VALUES ('I.V.A. - Debito Fiscal', 'Para comprobantes de INGRESO.', true, '2023-10-04 22:11:04.143640', 'admin', '127.0.0.1', 13.00),
+    VALUES ('Impuesto a las Transacciones', 'Para comprobantes de INGRESO.', true, '2023-10-04 22:11:04.143640', 'admin', '127.0.0.1', 3.00),
+    VALUES ('Impuesto I.T. por Pagar', 'Para comprobantes de INGRESO.', true, '2023-10-04 22:11:04.143640', 'admin', '127.0.0.1', 3.00),
+    VALUES ('R.C. - I.V.A. Regimen Complementario IVA', 'Retención por ALQUILERES.', true, '2023-10-04 22:11:04.143640', 'admin', '127.0.0.1', 13.00),
+    VALUES ('I.T. - Transacciones por Pagar Retenciones', 'Retención por ALQUILERES.', true, '2023-10-04 22:11:04.143640', 'admin', '127.0.0.1', 3.00),
+    VALUES ('I.U.E. Retenciones - Compras', 'Retención por COMPRAS.', true, '2023-10-04 22:11:04.143640', 'admin', '127.0.0.1', 5.00),
+    VALUES ('I.T. Retenciones - Compras', 'Retención por COMPRAS.', true, '2023-10-04 22:11:04.143640', 'admin', '127.0.0.1', 3.00),
+    VALUES ('I.U.E. Retenciones - Servicios', 'Retención por SERVICIOS.', true, '2023-10-04 22:11:04.143640', 'admin', '127.0.0.1', 12.50),
+    VALUES ('I.T. Retenciones - Servicios', 'Retención por SERVICIOS.', true, '2023-10-04 22:11:04.143640', 'admin', '127.0.0.1', 3.00);

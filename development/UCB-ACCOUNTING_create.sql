@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2023-10-05 03:33:02.958
+-- Last modification date: 2023-11-23 06:21:09.147
 
 -- tables
 -- Table: account
@@ -63,7 +63,7 @@ CREATE TABLE account_subgroup (
 CREATE TABLE attachment (
     attachment_id serial  NOT NULL,
     company_id int  NOT NULL,
-    content_type varchar(50)  NOT NULL,
+    content_type varchar(100)  NOT NULL,
     filename varchar(255)  NOT NULL,
     file_data bytea  NOT NULL,
     status boolean  NOT NULL,
@@ -189,8 +189,8 @@ CREATE TABLE expense_transaction_detail (
     expense_transaction_id int  NOT NULL,
     subaccount_id int  NOT NULL,
     quantity int  NOT NULL,
-    unit_price_bs money  NOT NULL,
-    amount_bs money  NOT NULL,
+    unit_price_bs numeric(20,2)  NOT NULL,
+    amount_bs numeric(20,2)  NOT NULL,
     status boolean  NOT NULL,
     tx_date timestamp  NOT NULL,
     tx_user varchar(50)  NOT NULL,
@@ -238,6 +238,9 @@ CREATE TABLE kc_group (
 -- Table: kc_user
 CREATE TABLE kc_user (
     kc_uuid varchar(50)  NOT NULL,
+    first_name varchar(100)  NOT NULL,
+    last_name varchar(100)  NOT NULL,
+    email varchar(100)  NOT NULL,
     s3_profile_picture int  NOT NULL,
     status boolean  NOT NULL,
     tx_date timestamp  NOT NULL,
@@ -339,8 +342,8 @@ CREATE TABLE sale_transaction_detail (
     sale_transaction_id int  NOT NULL,
     subaccount_id int  NOT NULL,
     quantity int  NOT NULL,
-    unit_price_bs money  NOT NULL,
-    amount_bs money  NOT NULL,
+    unit_price_bs numeric(20,2)  NOT NULL,
+    amount_bs numeric(20,2)  NOT NULL,
     status boolean  NOT NULL,
     tx_date timestamp  NOT NULL,
     tx_user varchar(50)  NOT NULL,
@@ -365,6 +368,7 @@ CREATE TABLE subaccount (
 
 -- Table: subaccount_tax_type
 CREATE TABLE subaccount_tax_type (
+    subaccount_tax_type_id serial  NOT NULL,
     tax_type_id int  NOT NULL,
     subaccount_id int  NOT NULL,
     company_id int  NOT NULL,
@@ -373,7 +377,7 @@ CREATE TABLE subaccount_tax_type (
     tx_date timestamp  NOT NULL,
     tx_user varchar(50)  NOT NULL,
     tx_host varchar(50)  NOT NULL,
-    CONSTRAINT subaccount_tax_type_pk PRIMARY KEY (tax_type_id,subaccount_id)
+    CONSTRAINT subaccount_tax_type_pk PRIMARY KEY (subaccount_tax_type_id)
 );
 
 -- Table: supplier
@@ -401,6 +405,7 @@ CREATE TABLE tax_type (
     tax_type_id serial  NOT NULL,
     tax_type_name varchar(100)  NOT NULL,
     description varchar(255)  NOT NULL,
+    default_tax_rate decimal(5,2)  NOT NULL,
     status boolean  NOT NULL,
     tx_date timestamp  NOT NULL,
     tx_user varchar(50)  NOT NULL,
@@ -437,12 +442,12 @@ CREATE TABLE transaction_detail (
     transaction_detail_id serial  NOT NULL,
     transaction_id int  NOT NULL,
     subaccount_id int  NOT NULL,
-    debit_amount_bs money  NOT NULL,
-    credit_amount_bs money  NOT NULL,
-    debit_amount_usd money  NOT NULL,
-    credit_amount_usd money  NOT NULL,
-    debit_amount_ufv decimal(15,5)  NOT NULL,
-    credit_amount_ufv decimal(15,5)  NOT NULL,
+    debit_amount_bs numeric(20,2)  NOT NULL,
+    credit_amount_bs numeric(20,2)  NOT NULL,
+    debit_amount_usd numeric(20,2)  NOT NULL,
+    credit_amount_usd numeric(20,2)  NOT NULL,
+    debit_amount_ufv numeric(20,5)  NOT NULL,
+    credit_amount_ufv numeric(20,5)  NOT NULL,
     status boolean  NOT NULL,
     tx_date timestamp  NOT NULL,
     tx_user varchar(50)  NOT NULL,

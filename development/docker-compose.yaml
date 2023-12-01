@@ -13,10 +13,10 @@ networks:
 services:
   uas-postgres-dev:
     container_name: uas-postgres-dev
-    image: postgres
+    image: postgres:15
     restart: always
     ports:
-      - "5432:5432"
+     - "5432:5432"
     environment:
       POSTGRES_PORT: ${POSTGRES_DEV_PORT}
       POSTGRES_USERNAME: ${POSTGRES_DEV_USERNAME}
@@ -26,13 +26,12 @@ services:
     volumes:
       - ~/Desktop/uas/dev/postgres/data:/var/lib/postgresql/data
       - ./UCB-ACCOUNTING_create.sql:/docker-entrypoint-initdb.d/UCB-ACCOUNTING_create.sql
-      - ./UCB-ACCOUNTING_insert.sql:/docker-entrypoint-initdb.d/UCB-ACCOUNTING_insert.sql
     networks:
       - network-uas
 
   uas-keycloak-postgres-dev:
     container_name: uas-keycloak-postgres-dev
-    image: postgres
+    image: postgres:15
     restart: always
     environment:
       POSTGRES_PORT: ${KEYCLOAK_POSTGRES_DEV_PORT}
@@ -65,12 +64,13 @@ services:
       KC_DB_SCHEMA: public
     volumes:
       - ~/Desktop/uas/dev/keycloak/data:/opt/keycloak/data
+      - ~/Desktop/uas/dev/keycloak/themes:/opt/keycloak/themes
     networks:
       - network-uas
     depends_on:
       - uas-keycloak-postgres-dev
 
-  uas-minio-dev:
+  minio:
     container_name: uas-minio-dev
     image: minio/minio
     user: root
@@ -87,10 +87,10 @@ services:
     command: server /data --console-address ":9090"
     networks:
       - network-uas
-  
+
   uas-backend-dev:
     container_name: uas-backend-dev
-    image: thealanmc/uas-backend:0.1.0
+    image: thealanmc/uas-backend:1.0.0
     user: root
     ports:
       - "8080:8080"
@@ -115,7 +115,7 @@ services:
 
   uas-frontend-dev:
     container_name: uas-frontend
-    image: thealanmc/uas-frontend:0.1.0
+    image: thealanmc/uas-frontend:1.0.1
     user: root
     restart: always
     ports:
@@ -124,7 +124,7 @@ services:
       - ~/Desktop/uas/dev/angular/nginx.conf:/etc/nginx/nginx.conf:ro
     networks:
       - network-uas
-  
+
   uas-pdf-turtle-dev:
     container_name: uas-pdf-turtle-dev
     image: lucasgaitzsch/pdf-turtle
@@ -134,6 +134,7 @@ services:
     environment:
       PORT: ${PDF_TURTLE_DEV_PORT}
       SERVE_PLAYGROUND: ${PDF_TURTLE_DEV_SERVE_PLAYGROUND}
+      RENDER_TIMEOUT: 3600
     networks:
       - network-uas
   
